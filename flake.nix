@@ -32,6 +32,15 @@
           '' + pre-commit-check.shellHook;
         };
 
+        packages = {
+          todo = pkgs.buildGoModule {
+            pname = "todo";
+            version = "0.1.0";
+            src = ./api;
+            vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+          };
+        };
+
         checks = {
           inherit pre-commit-check;
         };
