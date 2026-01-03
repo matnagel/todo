@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     flake-utils.url = "github:numtide/flake-utils";
+    git-hooks.url = "github:cachix/git-hooks.nix";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
+  outputs = { self, nixpkgs, flake-utils, git-hooks }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
@@ -18,10 +19,17 @@
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             gemini-cli
+            go
           ];
 
           shellHook = ''
             export PS1="[nix todo] \$ "
+            ${git-hooks.lib.${system}.run {
+              src = ./.;
+              hooks = {
+                gofmt.enable = true;
+              };
+            }}
           '';
         };
       }
