@@ -1,0 +1,4 @@
+steps:
+- name: 'nixos/nix@sha256:321bc7ebbbe17b68fd21ed162d096c058f55e209359286330f6e793cafab228e'
+  entrypoint: 'nix'
+  args: ['build']
