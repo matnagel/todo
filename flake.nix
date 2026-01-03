@@ -13,7 +13,12 @@
         pkgs = import nixpkgs {
           inherit system;
         };
-
+        pre-commit-check = git-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            gofmt.enable = true;
+          };
+        };
       in
       {
         devShell = pkgs.mkShell {
@@ -24,13 +29,11 @@
 
           shellHook = ''
             export PS1="[nix todo] \$ "
-            ${git-hooks.lib.${system}.run {
-              src = ./.;
-              hooks = {
-                gofmt.enable = true;
-              };
-            }}
-          '';
+          '' + pre-commit-check.shellHook;
+        };
+
+        checks = {
+          inherit pre-commit-check;
         };
       }
     );
