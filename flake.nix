@@ -37,7 +37,15 @@
             pname = "todo";
             version = "0.1.0";
             src = ./api;
-            vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+            vendorHash = null;
+          };
+        };
+
+        apps = {
+          default = self.apps.${system}.todo-app;
+          todo-app = {
+            type = "app";
+            program = "${self.packages.${system}.todo}/bin/todo";
           };
         };
 
